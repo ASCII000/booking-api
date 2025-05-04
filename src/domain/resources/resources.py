@@ -1,0 +1,84 @@
+"""
+Module for business logic for resources
+"""
+
+from typing import List
+
+from fastapi import Depends, status
+from fastapi.exceptions import HTTPException
+
+from src.repositories.resources import ResourceRepository, Resource
+from src.models.resources.resources import ResourceResponse, ResourceRequesModel
+
+
+class ResourceDomain:
+    """
+    Resource domain
+    """
+
+    def __init__(self, repository: ResourceRepository = Depends(ResourceRepository)):
+        """
+        Args:
+            repository: ResourceRepository
+        """
+        self.repository = repository
+
+    def get_all_resources(self) -> List[Resource]:
+        """
+        Get all resources
+
+        Returns:
+            List[Resource]: List of resources
+        """
+
+        # Get all resources
+        resources = self.repository.get_all_resources()
+
+        # Map resources to ResourceResponse
+        return [
+            ResourceResponse(
+                id=resource.id,
+                active=resource.active,
+                description=resource.description,
+                name=resource.name,
+                value_per_hour=resource.value_per_hour,
+            )
+            for resource in resources
+        ]
+
+    def create_resource(self, resource: ResourceRequesModel) -> ResourceResponse:
+        """
+        Create resource
+
+        Args:
+            resource: ResourceRequesModel
+
+        Returns:
+            ResourceResponse: Created resource
+        """
+
+        # Check if name already exists
+        if self.repository.get_resource_by_name(resource.name):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Um recurso com esse nome já existe",
+            )
+
+        # Parse request model to Resource sqlmodel
+        parsed_resource = Resource(
+            name=resource.name,
+            description=resource.description,
+            value_per_hour=resource.value_per_hour,
+        )
+
+        # Create resource
+        created_resource = self.repository.create_resource(parsed_resource)
+
+        # Map resource to ResourceResponse
+        return ResourceResponse(
+            id=created_resource.id,
+            active=created_resource.active,
+            description=created_resource.description,
+            name=created_resource.name,
+            value_per_hour=created_resource.value_per_hour,
+        )

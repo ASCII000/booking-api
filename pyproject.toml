@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "booking-api"
+version = "0.0.1"
+description = "Aplicativo web desenvolvido para gerenciar a reserva de recursos (como salas de reunião, equipamentos, ou espaços de uso comum). Criado com foco em apresentação de portfólio para demonstrar habilidades práticas em desenvolvimento web, arquitetura de APIs REST e integração front-end/back-end."
+authors = ["Emerson Silva"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.12"
+python-dotenv = "^1.1.0"
+uvicorn = "^0.34.2"
+sqlmodel = "^0.0.24"
+pytest = "^8.3.5"
+httpx = "^0.28.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+faker = "^37.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
