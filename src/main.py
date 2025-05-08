@@ -21,9 +21,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from src.routers.resources import router as resources_router
+# fmt: off
 
+from src.routers.resources import router as resources_router
 app.include_router(resources_router, prefix="/v1/resources", tags=["RESOURCES"])
+
+from src.routers.clients import router as clients_router
+app.include_router(clients_router, prefix="/v1/clients", tags=["CLIENTS"])
+
+# fmt: on
 
 if __name__ == "__main__":
     uvicorn.run(
