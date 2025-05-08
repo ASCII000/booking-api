@@ -82,3 +82,26 @@ class ResourceDomain:
             name=created_resource.name,
             value_per_hour=created_resource.value_per_hour,
         )
+
+    def reserve_resource(self, resource_id: int) -> str:
+        """
+        Reserve resource
+
+        Args:
+            resource_id: int
+        """
+
+        # Get resource by id
+        resource = self.repository.get_resource_by_id(resource_id)
+
+        # Check if resource exists
+        if not resource:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Recurso não encontrado",
+            )
+
+        # Reserve resource
+        self.repository.reserve_resource(resource)
+
+        return "Alugado com sucesso"
