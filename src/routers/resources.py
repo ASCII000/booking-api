@@ -7,7 +7,7 @@ from typing import List
 from fastapi import APIRouter, Depends
 
 from src.domain.resources.resources import ResourceDomain
-from src.models.resources.resources import ResourceResponse, ResourceRequesModel
+from src.models.resources.resources import ResourceResponse, ResourceRequesModel, ResourceEditRequestModel
 
 
 router = APIRouter()
@@ -32,3 +32,15 @@ async def create_resource(
     Create resource
     """
     return domain.create_resource(resource)
+
+
+@router.put("")
+async def edit_resource(
+    resource_id: int,
+    resource: ResourceEditRequestModel,
+    domain: ResourceDomain = Depends(ResourceDomain),
+):
+    """
+    Edit resource
+    """
+    return domain.edit_resource(resource_id, resource)

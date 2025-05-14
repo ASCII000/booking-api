@@ -11,8 +11,14 @@ from src.database.setup import engine
 
 def get_session() -> Generator[Session, None, None]:
     """
-    Get database session
+    Get database session with commit/rollback management.
     """
-
-    with Session(engine) as session:
+    session = Session(engine)
+    try:
         yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()

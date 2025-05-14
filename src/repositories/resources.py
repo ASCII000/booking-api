@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from fastapi import Depends
 
-from sqlmodel import select, Session
+from sqlmodel import Session, select
 
 from src.database.tables import Resource
 from src.dependencies.database import get_session
@@ -37,7 +37,6 @@ class ResourceRepository:
             Resource: Created resource
         """
         self.session.add(resource)
-        self.session.commit()
         return resource
 
     def get_resource_by_id(self, resource_id: int) -> Optional[Resource]:
@@ -67,3 +66,13 @@ class ResourceRepository:
         return self.session.exec(
             select(Resource).where(Resource.name == resource_name)
         ).first()
+
+    def edit_resource(self, resource: Resource) -> Resource:
+        """
+        Edit resource
+
+        Args:
+            resource: Resource
+        """
+        self.session.add(resource)
+        return self.get_resource_by_id(resource.id)

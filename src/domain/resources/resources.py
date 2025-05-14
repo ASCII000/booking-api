@@ -8,7 +8,11 @@ from fastapi import Depends, status
 from fastapi.exceptions import HTTPException
 
 from src.repositories.resources import ResourceRepository, Resource
-from src.models.resources.resources import ResourceResponse, ResourceRequesModel
+from src.models.resources.resources import (
+    ResourceResponse,
+    ResourceRequesModel,
+    ResourceEditRequestModel,
+)
 
 
 class ResourceDomain:
@@ -105,3 +109,34 @@ class ResourceDomain:
         self.repository.reserve_resource(resource)
 
         return "Alugado com sucesso"
+
+    def edit_resource(self, resource_id: int, edit_resource: ResourceEditRequestModel):
+        """
+        Edit resource
+        
+        Args:
+            resource_id (int): Resource id
+            edit_resourcel (ResourceEditRequestModel): Resource edit request model
+        """
+
+        # Get resource by id
+        resource = self.repository.get_resource_by_id(resource_id)
+
+        # Check if resource exists
+        if not resource:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Recurso não encontrado",
+            )
+
+        # Wrap model excludes None Fields
+        edit_resource = edit_resource.model_dump(exclude_none=True)
+
+        # Choice values in wraped model
+        for key, value in edit_resource.items():
+            setattr(resource, key, value)
+
+        # Edit resource
+        self.repository.edit_resource(resource)
+
+        return "Recurso editado com sucesso"
