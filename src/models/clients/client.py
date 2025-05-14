@@ -5,6 +5,7 @@ Module for client models
 """
 
 import re
+import hashlib
 
 from fastapi.exceptions import RequestValidationError
 
@@ -19,6 +20,36 @@ class ClientRequestModel(BaseModel):
     name: str = Field(..., title="Client Name")
     email: str = Field(..., title="Client Email")
     password: str = Field(..., title="Client Password")
+
+    @field_validator("password", mode="before")
+    def validate_password(cls, value: str) -> str:
+        """
+        Validate password
+
+        Args:
+            value: str
+
+        Returns:
+            str: Validated password
+        """
+
+        # Verify password must be at least than 8 characters
+        if re.match(r"^.{0,7}$", value):
+            raise RequestValidationError(
+                errors={
+                    "password": "A senha deve ter no mínimo 8 caracteres.",
+                },
+            )
+
+        # Verify password must be contain at least one uppercase letter
+        if not re.match(r"^[A-Z]", value):
+            raise RequestValidationError(
+                errors={
+                    "password": "A senha deve conter pelo menos uma letra maiúscula.",
+                },
+            )
+
+        return hashlib.sha256(value.encode()).hexdigest()
 
     @field_validator("email", mode="before")
     def validate_email(cls, value: str) -> str:
