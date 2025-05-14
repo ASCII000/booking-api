@@ -24,7 +24,7 @@ class Client(SQLModel, table=True):
 
     id: int = Field(default=None, primary_key=True)
     name: str = Field(..., unique=False)
-    balance: Decimal = Field(sa_column=Column(DECIMAL(10, 2)))
+    balance: Decimal = Field(sa_column=Column(DECIMAL(10, 2)), default=Decimal(0))
     email: str = Field(..., unique=True, nullable=False)
     password: str = Field(..., nullable=False)
     created_at: datetime = Field(default_factory=datetime.now)
