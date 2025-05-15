@@ -71,3 +71,12 @@ class ClientRequestModel(BaseModel):
                 },
             )
         return value
+
+
+class ClientTokensModel(BaseModel):
+    """
+    Client tokens model
+    """
+
+    access_token: str = Field(..., title="Client Access Token")
+    refresh_token: str = Field(..., title="Client Refresh Token")

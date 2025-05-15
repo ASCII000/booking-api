@@ -15,7 +15,7 @@ class ClientDomain:
     Class for client business logic
     """
 
-    def __init__(self, client_repository: ClientRepository = Depends()):
+    def __init__(self, client_repository: ClientRepository = Depends(ClientRepository)):
         self.client_repository = client_repository
 
     def create_client(self, client: ClientRequestModel) -> str:
