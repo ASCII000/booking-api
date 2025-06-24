@@ -2,7 +2,7 @@
 Module for resource repository
 """
 
-from typing import List, Optional, Sequence
+from typing import Optional, Sequence
 
 from fastapi import Depends
 

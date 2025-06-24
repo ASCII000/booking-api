@@ -33,7 +33,23 @@ class TestCreateResource:
             "name": RESOURCE_NAME_DONT_EXIST,
             "description": "Test description",
             "value_per_hour": 10,
+            "image": "https://example.com/image.png",
         }
 
         response = client.post("/v1/resources", json=payload)
         assert response.status_code == 200
+
+    def test_create_resource_with_name_already_exists(self, client):
+        """
+        Test post endpoint creating a resource with name already exists
+        """
+
+        payload = {
+            "name": "RESOURCE",
+            "description": "Test description",
+            "value_per_hour": 10,
+            "image": "https://example.com/image.png",
+        }
+
+        response = client.post("/v1/resources", json=payload)
+        assert response.status_code == 409
