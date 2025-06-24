@@ -2,7 +2,7 @@
 Module for resource repository
 """
 
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from fastapi import Depends
 
@@ -20,11 +20,13 @@ class ResourceRepository:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def get_all_resources(self) -> List[Resource]:
+    def get_all_resources(self) -> Sequence[Resource]:
         """
         Get all resources
         """
-        return list(self.session.exec(select(Resource)).all())
+        return self.session.exec(
+            select(Resource)
+        ).all()
 
     def create_resource(self, resource: Resource) -> Resource:
         """
@@ -37,6 +39,7 @@ class ResourceRepository:
             Resource: Created resource
         """
         self.session.add(resource)
+        self.session.flush()
         return resource
 
     def get_resource_by_id(self, resource_id: int) -> Optional[Resource]:

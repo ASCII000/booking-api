@@ -131,10 +131,10 @@ class ResourceDomain:
             )
 
         # Wrap model excludes None Fields
-        edit_resource = edit_resource.model_dump(exclude_none=True)
+        edited_resource = edit_resource.model_dump(exclude_none=True)
 
         # Choice values in wraped model
-        for key, value in edit_resource.items():
+        for key, value in edited_resource.items():
             setattr(resource, key, value)
 
         # Edit resource
