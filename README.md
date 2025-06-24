@@ -201,11 +201,6 @@ Após iniciar a aplicação, acesse:
 - **DevOps** e boas práticas de desenvolvimento
 - **Documentação** técnica e APIs
 
-### 📞 **Contato**
-- **LinkedIn**: [Seu LinkedIn]
-- **GitHub**: [Seu GitHub]
-- **Email**: [Seu Email]
-
 ---
 
 ## 📄 Licença
