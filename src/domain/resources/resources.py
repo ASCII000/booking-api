@@ -27,7 +27,7 @@ class ResourceDomain:
         """
         self.repository = repository
 
-    def get_all_resources(self) -> List[Resource]:
+    def get_all_resources(self) -> List[ResourceResponse]:
         """
         Get all resources
 
@@ -73,6 +73,7 @@ class ResourceDomain:
             name=resource.name,
             description=resource.description,
             value_per_hour=resource.value_per_hour,
+            image=resource.image,
         )
 
         # Create resource

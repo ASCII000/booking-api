@@ -28,6 +28,7 @@ class ResourceRequesModel(BaseModel):
     name: str = Field(..., title="Resource Name")
     description: str = Field(..., title="Resource Description")
     value_per_hour: Decimal = Field(..., title="Resource Value Per Hour")
+    image: str = Field(..., title="Resource Image")
 
 
 class ResourceEditRequestModel(BaseModel):

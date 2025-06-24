@@ -24,7 +24,7 @@ class ResourceRepository:
         """
         Get all resources
         """
-        return self.session.exec(select(Resource)).all()
+        return list(self.session.exec(select(Resource)).all())
 
     def create_resource(self, resource: Resource) -> Resource:
         """
@@ -67,7 +67,7 @@ class ResourceRepository:
             select(Resource).where(Resource.name == resource_name)
         ).first()
 
-    def edit_resource(self, resource: Resource) -> Resource:
+    def edit_resource(self, resource: Resource) -> Optional[Resource]:
         """
         Edit resource
 

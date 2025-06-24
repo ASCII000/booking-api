@@ -7,7 +7,11 @@ from typing import List
 from fastapi import APIRouter, Depends
 
 from src.domain.resources.resources import ResourceDomain
-from src.models.resources.resources import ResourceResponse, ResourceRequesModel, ResourceEditRequestModel
+from src.models.resources.resources import (
+    ResourceResponse,
+    ResourceRequesModel,
+    ResourceEditRequestModel
+)
 
 
 router = APIRouter()
